@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="RestAssured-GitHub-Apis-Automation" thread-count="5" parallel="false">
+    <test name="Test-GitHub-APIs">
+                <classes>
+                    <class name="TestGitHubApis.GetReposTests"/>
+                </classes>
+    </test>
+</suite>
