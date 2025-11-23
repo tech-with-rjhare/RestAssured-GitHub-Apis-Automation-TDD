@@ -1,19 +1,42 @@
 package TestGitHubApis;
 
+import config.ConfigManager;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasItem;
 
 public class GetReposTests {
 
     @Test
     void verifyStatusCode(){
-        RestAssured.baseURI = "https://api.github.com";
+        ConfigManager.setBaseURI();
         given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
                 when().get("/users/tech-with-rjhare/repos").
                 then().assertThat().statusCode(200);
     }
+
+    @Test(dependsOnMethods = "verifyStatusCode")
+    void verifyRepositoryByName(){
+        ConfigManager.setBaseURI();
+        String find_repo = ConfigManager.getValue("find_repository_name");
+        Response response = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
+                when().get("/users/tech-with-rjhare/repos");
+        response.then().body("name",hasItem(find_repo));
+    }
+
+    @Test(dependsOnMethods = "verifyStatusCode")
+    void verifyRepositoryByID(){
+        ConfigManager.setBaseURI();
+        int find_repo_by_ID = Integer.parseInt(ConfigManager.getValue("find_repository_by_ID"));
+        Response response = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
+                when().get("/users/tech-with-rjhare/repos");
+        response.then().body("id",hasItem(find_repo_by_ID));
+    }
+
+
 
 }
