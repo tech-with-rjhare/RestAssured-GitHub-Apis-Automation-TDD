@@ -9,6 +9,8 @@ import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
 
@@ -43,6 +45,18 @@ public class GetReposTests {
         RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
         Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
         response.then().body("id",hasItem(find_repo_by_ID));
+    }
+
+    @Test(dependsOnMethods = "verifyRepositoryByName")
+    void verifyDescription(){
+        ConfigManager.setBaseURI();
+        String expectedDesc = "Practicing TestNG annotations and assertions";
+        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
+        List<String> reposDesc = response.then().extract().body().jsonPath().getList("description");
+        boolean isPresent = reposDesc.contains(expectedDesc);
+        Assert.assertTrue(isPresent, "Expected repo name " + expectedDesc + " not found in response!");
+
     }
 
 }
