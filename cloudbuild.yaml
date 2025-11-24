@@ -1,0 +1,11 @@
+
+steps:
+  # Step 1: Use Maven image to build and run tests
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'test']
+    dir: '.'  # Root directory of your project
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+
