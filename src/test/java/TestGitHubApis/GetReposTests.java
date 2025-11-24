@@ -4,6 +4,9 @@ import config.ConfigManager;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
+import io.restassured.specification.RequestSpecification;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -14,17 +17,22 @@ public class GetReposTests {
     @Test
     void verifyStatusCode(){
         ConfigManager.setBaseURI();
-        given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
-                when().get("/users/tech-with-rjhare/repos").
-                then().assertThat().statusCode(200);
+        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
+        /*given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
+                        when().get("/users/tech-with-rjhare/repos").
+                        then().assertThat().statusCode(200);
+        ResponseBody res = response.body();
+       System.out.printf(res.prettyPrint());*/
+        Assert.assertEquals(response.statusCode(),200);
     }
 
     @Test(dependsOnMethods = "verifyStatusCode")
     void verifyRepositoryByName(){
         ConfigManager.setBaseURI();
         String find_repo = ConfigManager.getValue("find_repository_name");
-        Response response = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
-                when().get("/users/tech-with-rjhare/repos");
+        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
         response.then().body("name",hasItem(find_repo));
     }
 
@@ -32,11 +40,9 @@ public class GetReposTests {
     void verifyRepositoryByID(){
         ConfigManager.setBaseURI();
         int find_repo_by_ID = Integer.parseInt(ConfigManager.getValue("find_repository_by_ID"));
-        Response response = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
-                when().get("/users/tech-with-rjhare/repos");
+        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
         response.then().body("id",hasItem(find_repo_by_ID));
     }
-
-
 
 }
