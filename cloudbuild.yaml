@@ -9,6 +9,6 @@ steps:
   #logging: CLOUD_LOGGING_ONLY
   #logging: NONE
 
-logsBucket: gs://gcp-devops-restassured-artifacts-bucket-test
+logsBucket: gs://gcp-devops-restassured-artifacts-bucket-test/build-logs
 
 
