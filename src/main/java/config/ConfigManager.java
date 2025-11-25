@@ -32,6 +32,16 @@ public class ConfigManager {
         RestAssured.baseURI = properties.getProperty("base_url");
     }
 
+    private static final String tokenFilePath = System.getProperty("user.dir") + "\\src\\test\\java\\resources\\token.properties";
+
+    static {
+        try {
+            FileInputStream tokenFileInputStream = new FileInputStream(tokenFilePath);
+            properties.load(tokenFileInputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load config.properties file. Check path: " + filePath, e);
+        }
+    }
     public static String getToken(){
         return getValue("GITHUB_TOKEN");
     }
