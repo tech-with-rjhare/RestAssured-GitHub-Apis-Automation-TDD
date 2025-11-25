@@ -32,4 +32,8 @@ public class ConfigManager {
         RestAssured.baseURI = properties.getProperty("base_url");
     }
 
+    public static String getToken(){
+        return getValue("GITHUB_TOKEN");
+    }
+
 }

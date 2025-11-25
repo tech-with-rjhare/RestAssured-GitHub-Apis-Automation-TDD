@@ -5,6 +5,7 @@
     <test name="Test-GitHub-APIs">
                 <classes>
                     <class name="TestGitHubApis.GetReposTests"/>
+                    <class name="TestGitHubApis.GetPrivateReposTests"/>
                 </classes>
     </test>
 </suite>
