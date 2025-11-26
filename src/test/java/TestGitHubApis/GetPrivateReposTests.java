@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+    import static org.hamcrest.Matchers.*;
 
 public class GetPrivateReposTests {
 
@@ -46,7 +46,7 @@ public class GetPrivateReposTests {
                 .expectContentType(ContentType.JSON)
                 .expectResponseTime(lessThanOrEqualTo(2000L), TimeUnit.MILLISECONDS)
                 .expectHeader("Cache-Control","private, max-age=60, s-maxage=60")
-                .expectHeader("github-authentication-token-expiration", "2026-06-29 18:30:00 UTC")
+                .expectHeader("github-authentication-token-expiration", "2026-02-24 08:09:30 UTC")
                 .expectHeader("X-GitHub-Media-Type","github.v3; format=json")
                 .expectHeader("x-github-api-version-selected","2022-11-28")
                 .expectHeader("Referrer-Policy","origin-when-cross-origin, strict-origin-when-cross-origin")

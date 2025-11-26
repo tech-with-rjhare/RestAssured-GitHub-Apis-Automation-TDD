@@ -6,6 +6,7 @@
                 <classes>
                     <class name="TestGitHubApis.GetReposTests"/>
                     <class name="TestGitHubApis.GetPrivateReposTests"/>
+                    <class name="TestGitHubApis.PostCallCreateRepo"/>
                 </classes>
     </test>
 </suite>
