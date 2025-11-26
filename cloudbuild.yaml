@@ -9,6 +9,6 @@ steps:
   #logging: CLOUD_LOGGING_ONLY
   #logging: NONE
 
-logsBucket: gs://restassured-artifacts-bucket-test/restassured-build-logs
+logsBucket: gs://qa-automation-restassured-artifacts-bucket/restassured-build-logs
 
 
