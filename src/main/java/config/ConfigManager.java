@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class ConfigManager {
 
-    private static final Properties properties = new Properties();
+    protected static final Properties properties = new Properties();
     private static final String filePath = System.getProperty("user.dir") + "\\src\\test\\java\\resources\\config.properties";
 
     static {
@@ -30,20 +30,6 @@ public class ConfigManager {
 
     public static void setBaseURI(){
         RestAssured.baseURI = properties.getProperty("base_url");
-    }
-
-    private static final String tokenFilePath = System.getProperty("user.dir") + "\\src\\test\\java\\resources\\token.properties";
-
-    static {
-        try {
-            FileInputStream tokenFileInputStream = new FileInputStream(tokenFilePath);
-            properties.load(tokenFileInputStream);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load config.properties file. Check path: " + filePath, e);
-        }
-    }
-    public static String getToken(){
-        return getValue("GITHUB_TOKEN");
     }
 
 }
