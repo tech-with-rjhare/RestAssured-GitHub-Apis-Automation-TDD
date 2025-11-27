@@ -70,7 +70,7 @@ public class GetPrivateReposTests {
         JsonPath jsonPath = new JsonPath(responseBodyInString);
         List<String> repoNames = jsonPath.getList("name");
         //System.out.println(repoNames);
-        String find_repo = "Test-GitHub-APIs";
+        String find_repo = "update-repo";
         Assert.assertTrue(repoNames.contains(find_repo));
 
     }
