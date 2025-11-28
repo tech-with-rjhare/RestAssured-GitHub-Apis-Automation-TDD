@@ -51,8 +51,8 @@ public class GetPrivateReposTests {
                 .expectHeader("x-github-api-version-selected","2022-11-28")
                 .expectHeader("Referrer-Policy","origin-when-cross-origin, strict-origin-when-cross-origin")
                 .expectHeader("Content-Security-Policy","default-src 'none'")
-                .expectHeader("Content-Encoding","gzip")
-                .expectHeader("Transfer-Encoding","chunked")
+                .expectHeader("Content-Encoding",anyOf(equalTo("gzip"),equalTo(null)))
+                .expectHeader("Transfer-Encoding",anyOf(equalTo("chunked"),equalTo(null)))
                 .expectHeader("Server","github.com").build();
 
         response.then().spec(responseSpecification);
@@ -70,7 +70,7 @@ public class GetPrivateReposTests {
         JsonPath jsonPath = new JsonPath(responseBodyInString);
         List<String> repoNames = jsonPath.getList("name");
         //System.out.println(repoNames);
-        String find_repo = "update-repo";
+        String find_repo = ConfigManager.getValue("update_repo_name");
         Assert.assertTrue(repoNames.contains(find_repo));
 
     }

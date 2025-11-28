@@ -23,7 +23,8 @@ public class PatchUpdateRepo {
     public static String pathParam;
 
     @BeforeClass
-    void setUp(){
+    void setUp() throws InterruptedException {
+        Thread.sleep(7000);
         ConfigManager.setBaseURI();
 
        // Enable redirect handling for PATCH
