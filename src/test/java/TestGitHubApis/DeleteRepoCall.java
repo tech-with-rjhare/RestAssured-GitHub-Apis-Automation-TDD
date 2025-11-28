@@ -1,22 +1,16 @@
 package TestGitHubApis;
 
-import config.ConfigManager;
-import config.TokenManager;
+import base.BaseClass;
+import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-public class DeleteRepoCall {
-    public RequestSpecification requestSpecification;
-    public Response response;
+public class DeleteRepoCall extends BaseClass {
 
     @BeforeClass
     void setUp() throws InterruptedException {
@@ -40,7 +34,7 @@ public class DeleteRepoCall {
                                                                 ,"Content-Security-Policy","default-src 'none'"
                                                                 ,"Server","github.com"));
 
-        ResponseSpecification responseSpecification = new ResponseSpecBuilder().expectHeaders(headers).build();
+        responseSpecification = new ResponseSpecBuilder().expectHeaders(headers).build();
         response.then().spec(responseSpecification);
     }
 

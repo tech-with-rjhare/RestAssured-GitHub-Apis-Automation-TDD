@@ -1,14 +1,11 @@
 package TestGitHubApis;
 
-import config.ConfigManager;
-import config.TokenManager;
+import base.BaseClass;
+import config.*;
 import io.restassured.RestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.config.RedirectConfig;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -17,9 +14,7 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
-public class PatchUpdateRepo {
-    public RequestSpecification requestSpecification;
-    public Response response;
+public class PatchUpdateRepo extends BaseClass {
     public static String pathParam;
 
     @BeforeClass
@@ -51,7 +46,7 @@ public class PatchUpdateRepo {
 
     @Test
     void verifyResponseHeaders(){
-        ResponseSpecification requestSpec = new ResponseSpecBuilder()
+        responseSpecification = new ResponseSpecBuilder()
                 .expectContentType(ContentType.JSON)
                 .expectResponseTime(lessThanOrEqualTo(5000L), TimeUnit.MILLISECONDS)
                 .expectStatusCode(200)
@@ -59,7 +54,7 @@ public class PatchUpdateRepo {
                 .expectHeader("Referrer-Policy","origin-when-cross-origin, strict-origin-when-cross-origin")
                 .expectHeader("Content-Security-Policy", "default-src 'none'")
                 .expectHeader("Server", "github.com").build();
-        response.then().spec(requestSpec);
+        response.then().spec(responseSpecification);
     }
     @Test
     void verifyRepoName(){

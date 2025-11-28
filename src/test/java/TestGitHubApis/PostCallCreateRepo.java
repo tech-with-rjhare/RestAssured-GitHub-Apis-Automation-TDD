@@ -1,14 +1,10 @@
 package TestGitHubApis;
 
-import config.ConfigManager;
-import config.TokenManager;
+import base.BaseClass;
+import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
-import org.hamcrest.Matcher;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -16,10 +12,7 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class PostCallCreateRepo {
-
-    public RequestSpecification requestSpecification;
-    public Response response;
+public class PostCallCreateRepo extends BaseClass {
 
     @BeforeClass
     void SetUp(){
@@ -48,7 +41,7 @@ public class PostCallCreateRepo {
 
     @Test
     void verifyResponseHeaders(){
-        ResponseSpecification requestSpec = new ResponseSpecBuilder()
+        responseSpecification = new ResponseSpecBuilder()
                 .expectContentType(ContentType.JSON)
                 .expectResponseTime(lessThanOrEqualTo(5000L), TimeUnit.MILLISECONDS)
                 .expectStatusCode(201)
@@ -56,7 +49,7 @@ public class PostCallCreateRepo {
                 .expectHeader("Referrer-Policy","origin-when-cross-origin, strict-origin-when-cross-origin")
                 .expectHeader("Content-Security-Policy", "default-src 'none'")
                 .expectHeader("Server", "github.com").build();
-        response.then().spec(requestSpec);
+        response.then().spec(responseSpecification);
 
 
     }

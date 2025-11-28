@@ -1,5 +1,6 @@
 package TestGitHubApis;
 
+import base.BaseClass;
 import config.ConfigManager;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -14,14 +15,14 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
 
-public class GetReposTests {
+public class GetReposTests extends BaseClass {
 
 
     @Test
     void verifyStatusCode(){
         ConfigManager.setBaseURI();
-        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
-        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
+        requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        response = requestSpecification.get("/users/tech-with-rjhare/repos");
         /*given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON).
                         when().get("/users/tech-with-rjhare/repos").
                         then().assertThat().statusCode(200);
@@ -34,8 +35,8 @@ public class GetReposTests {
     void verifyRepositoryByName(){
         ConfigManager.setBaseURI();
         String find_repo = ConfigManager.getValue("find_repository_name");
-        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
-        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
+        requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        response = requestSpecification.get("/users/tech-with-rjhare/repos");
         response.then().body("name",hasItem(find_repo));
     }
 
@@ -43,8 +44,8 @@ public class GetReposTests {
     void verifyRepositoryByID(){
         ConfigManager.setBaseURI();
         int find_repo_by_ID = Integer.parseInt(ConfigManager.getValue("find_repository_by_ID"));
-        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
-        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
+        requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        response = requestSpecification.get("/users/tech-with-rjhare/repos");
         response.then().body("id",hasItem(find_repo_by_ID));
     }
 
@@ -52,8 +53,8 @@ public class GetReposTests {
     void verifyDescription(){
         ConfigManager.setBaseURI();
         String expectedDesc = "Practicing TestNG annotations and assertions";
-        RequestSpecification requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
-        Response response = requestSpecification.get("/users/tech-with-rjhare/repos");
+        requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
+        response = requestSpecification.get("/users/tech-with-rjhare/repos");
         List<String> reposDesc = response.then().extract().body().jsonPath().getList("description");
         boolean isPresent = reposDesc.contains(expectedDesc);
         Assert.assertTrue(isPresent, "Expected repo name " + expectedDesc + " not found in response!");
