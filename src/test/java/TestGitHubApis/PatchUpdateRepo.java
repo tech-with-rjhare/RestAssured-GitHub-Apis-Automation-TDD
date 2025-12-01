@@ -1,10 +1,8 @@
 package TestGitHubApis;
 
-import base.BaseClass;
+import base.BaseTest;
 import config.*;
-import io.restassured.RestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.config.RedirectConfig;
 import io.restassured.http.ContentType;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -14,17 +12,12 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
-public class PatchUpdateRepo extends BaseClass {
+public class PatchUpdateRepo extends BaseTest {
     public static String pathParam;
 
     @BeforeClass
     void setUp() throws InterruptedException {
-        Thread.sleep(7000);
-        ConfigManager.setBaseURI();
-
-       // Enable redirect handling for PATCH
-        RestAssured.config = RestAssured.config()
-                .redirect(RedirectConfig.redirectConfig().followRedirects(true));
+        Thread.sleep(5000);
 
         final String updateRepoName = ConfigManager.getValue("update_repo_name");
         final String updateRepoDesc = ConfigManager.getValue("update_repo_desc");
@@ -37,7 +30,7 @@ public class PatchUpdateRepo extends BaseClass {
                 "}";
         requestSpecification = given().auth().oauth2(TokenManager.getToken()).contentType(ContentType.JSON).body(requestBody);
         response = requestSpecification.patch(pathParam);
-        System.out.println(pathParam);
+        //System.out.println(pathParam);
     }
     @Test
     void verifyStatusCode(){

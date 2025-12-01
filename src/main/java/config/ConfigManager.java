@@ -9,7 +9,7 @@ import java.util.Properties;
 public class ConfigManager {
 
     protected static final Properties properties = new Properties();
-    private static final String filePath = System.getProperty("user.dir") + "\\src\\test\\java\\resources\\config.properties";
+    private static final String filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\config.properties";
 
     static {
         try {

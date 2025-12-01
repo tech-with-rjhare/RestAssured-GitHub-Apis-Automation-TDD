@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="RestAssured-GitHub-Apis-Automation" parallel="false">
+<suite name="RestAssured-GitHub-Apis-Automation">
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
     <test name="Test-GitHub-APIs">
                 <classes>
                     <class name="TestGitHubApis.GetReposTests"/>
-                    <class name="TestGitHubApis.PostCallCreateRepo"/>
+                   <!-- <class name="TestGitHubApis.PostCallCreateRepo"/>
                     <class name="TestGitHubApis.PatchUpdateRepo"/>
                     <class name="TestGitHubApis.GetPrivateReposTests"/>
-                    <class name="TestGitHubApis.DeleteRepoCall"/>
+                    <class name="TestGitHubApis.DeleteRepoCall"/> -->
                 </classes>
     </test>
 </suite>

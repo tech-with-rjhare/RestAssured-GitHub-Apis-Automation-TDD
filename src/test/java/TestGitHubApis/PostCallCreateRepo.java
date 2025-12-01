@@ -1,6 +1,6 @@
 package TestGitHubApis;
 
-import base.BaseClass;
+import base.BaseTest;
 import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
@@ -12,11 +12,10 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class PostCallCreateRepo extends BaseClass {
+public class PostCallCreateRepo extends BaseTest {
 
     @BeforeClass
     void SetUp(){
-        ConfigManager.setBaseURI();
         final String newRepoName = ConfigManager.getValue("new_repo_name");
         final String newRepoDesc = ConfigManager.getValue("new_repo_desc");
         final String isPrivate = ConfigManager.getValue("new_repo_is_private");

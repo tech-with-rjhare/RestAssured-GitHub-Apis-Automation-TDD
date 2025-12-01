@@ -1,6 +1,6 @@
 package TestGitHubApis;
 
-import base.BaseClass;
+import base.BaseTest;
 import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
@@ -14,11 +14,10 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class GetPrivateReposTests extends BaseClass {
+public class GetPrivateReposTests extends BaseTest {
 
     @Test()
     public void verifyStatusCode(){
-        ConfigManager.setBaseURI();
         requestSpecification= given().auth().oauth2(TokenManager.getToken());
         response = requestSpecification.when().get("/user/repos");
         /*ResponseBody responseBody = response.then().extract().response().getBody();
@@ -34,7 +33,6 @@ public class GetPrivateReposTests extends BaseClass {
 
     @Test(priority = 2, dependsOnMethods = "verifyStatusCode")
     void verifyResponseHeader(){
-        ConfigManager.setBaseURI();
         requestSpecification= given().auth().oauth2(TokenManager.getToken());
         response = requestSpecification.when().get("/user/repos");
 
@@ -58,7 +56,6 @@ public class GetPrivateReposTests extends BaseClass {
 
     @Test(priority = 3, dependsOnMethods = "verifyStatusCode")
     void verifyRepositoryByName(){
-        ConfigManager.setBaseURI();
         requestSpecification = given().auth().oauth2(TokenManager.getToken());
         response = requestSpecification.get("/user/repos");
         //String responseBodyInString = response.body().prettyPrint();
@@ -74,7 +71,6 @@ public class GetPrivateReposTests extends BaseClass {
 
     @Test(priority = 1, dependsOnMethods = "verifyStatusCode")
     void verifyResponseContentType(){
-        ConfigManager.getBaseURI();
         response = given().auth().oauth2(TokenManager.getToken()).get("/user/repos");
         response.then().assertThat().contentType(ContentType.JSON);
 

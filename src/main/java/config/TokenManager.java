@@ -8,7 +8,7 @@ import static config.ConfigManager.properties;
 
 public class TokenManager{
 
-    private static final String tokenFilePath = System.getProperty("user.dir") + "\\src\\test\\java\\resources\\token.properties";
+    private static final String tokenFilePath = System.getProperty("user.dir") + "\\src\\test\\resources\\token.properties";
 
     static {
         try {
