@@ -3,7 +3,6 @@ package TestGitHubApis;
 import base.BaseTest;
 import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,9 +11,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class DeleteRepoCall extends BaseTest {
 
-    @BeforeClass
-    void setUp() throws InterruptedException {
-        Thread.sleep(5000);
+    @Override
+    protected void runBeforeClass() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         requestSpecification = given().auth().oauth2(TokenManager.getToken());
         String pathParam = "/repos/"+ConfigManager.getValue("owner_name")+"/"+ConfigManager.getValue("update_repo_name");
         response = requestSpecification.delete(pathParam);

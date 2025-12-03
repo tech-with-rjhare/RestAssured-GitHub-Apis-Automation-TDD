@@ -1,5 +1,6 @@
 package TestGitHubApis;
 
+import POJO.RepoResponse;
 import base.BaseTest;
 import config.ConfigManager;
 import io.restassured.http.ContentType;
@@ -7,17 +8,19 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.Log4jLogger;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 
 public class GetReposTests extends BaseTest {
 
-
-    @Test
-    void verifyStatusCode(){
-
+    @Override
+    protected void runBeforeClass() {
         requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
         response = requestSpecification.get("/users/tech-with-rjhare/repos");
         Log4jLogger.info("Sending GET request to fetch repository details...");
@@ -27,6 +30,10 @@ public class GetReposTests extends BaseTest {
         ResponseBody res = response.body();
        System.out.printf(res.prettyPrint());*/
         Log4jLogger.info("Endpoint: https://api.github.com/users/tech-with-rjhare/repo");
+    }
+
+    @Test
+    void verifyStatusCode(){
         Assert.assertEquals(response.statusCode(),200);
         Log4jLogger.info("✅ Response Status: 200 OK - Repository details fetched successfully.");
 
@@ -49,7 +56,15 @@ public class GetReposTests extends BaseTest {
         int find_repo_by_ID = Integer.parseInt(ConfigManager.getValue("find_repository_by_ID"));
         requestSpecification = given().header("Accept","application/vnd.github+json").contentType(ContentType.JSON);
         response = requestSpecification.get("/users/tech-with-rjhare/repos");
-        response.then().body("id",hasItem(find_repo_by_ID));
+        //response.then().body("id",hasItem(find_repo_by_ID));
+        RepoResponse[] reposArray = response.as(RepoResponse[].class);
+        LinkedList<RepoResponse> repoList = new LinkedList<>(Arrays.asList(reposArray));
+        // Step 3: Extract list of IDs
+        List<Integer> repoIDs = repoList.stream()
+                .map(RepoResponse::getId)
+                .collect(Collectors.toList());
+        // Step 4: Hamcrest validation
+        assertThat("Repo ID should exist", repoIDs, hasItem(find_repo_by_ID));
     }
 
     @Test(dependsOnMethods = "verifyRepositoryByName")

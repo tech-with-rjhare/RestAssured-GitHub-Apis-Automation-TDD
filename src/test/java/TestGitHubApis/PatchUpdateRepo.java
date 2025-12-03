@@ -15,10 +15,13 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 public class PatchUpdateRepo extends BaseTest {
     public static String pathParam;
 
-    @BeforeClass
-    void setUp() throws InterruptedException {
-        Thread.sleep(5000);
-
+    @Override
+    protected void runBeforeClass() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         final String updateRepoName = ConfigManager.getValue("update_repo_name");
         final String updateRepoDesc = ConfigManager.getValue("update_repo_desc");
         final String isPrivate = ConfigManager.getValue("update_repo_is_private");

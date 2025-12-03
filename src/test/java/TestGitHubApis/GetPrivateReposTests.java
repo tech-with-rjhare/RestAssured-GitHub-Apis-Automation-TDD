@@ -16,8 +16,8 @@ import static org.hamcrest.Matchers.*;
 
 public class GetPrivateReposTests extends BaseTest {
 
-    @Test()
-    public void verifyStatusCode(){
+    @Override
+    protected void runBeforeClass(){
         requestSpecification= given().auth().oauth2(TokenManager.getToken());
         response = requestSpecification.when().get("/user/repos");
         /*ResponseBody responseBody = response.then().extract().response().getBody();
@@ -28,6 +28,10 @@ public class GetPrivateReposTests extends BaseTest {
         String responseInString = response.body().prettyPrint();
         //System.out.println(resp);
         JsonPath jsonPath = new JsonPath(responseInString);*/
+    }
+
+    @Test()
+    public void verifyStatusCode(){
         response.then().assertThat().statusCode(200);
     }
 
