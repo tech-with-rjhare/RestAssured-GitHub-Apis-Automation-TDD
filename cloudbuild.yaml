@@ -5,8 +5,8 @@ steps:
     args: ['clean', 'test']
     dir: '.'  # Root directory of your project
 
-#options:
-  #logging: CLOUD_LOGGING_ONLY
+options:
+  logging: CLOUD_LOGGING_ONLY
   #logging: NONE
 
 logsBucket: gs://qa-automation-restassured-artifacts-bucket/restassured-build-logs
