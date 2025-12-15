@@ -1,17 +1,11 @@
-package base;
+package TestGitHubApis;
 
+import base.BaseClass;
 import config.ConfigManager;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.*;
 import utils.Log4jLogger;
 
-public abstract class BaseTest {
-    protected RequestSpecification requestSpecification;
-    protected Response response;
-    protected ResponseSpecification responseSpecification;
-    protected abstract void runBeforeClass();
+public abstract class BaseTest extends BaseClass{
 
     @BeforeTest
     public void setUp(){
@@ -36,6 +30,5 @@ public abstract class BaseTest {
         Log4jLogger.endTestCase();
     }
 
-
-
+    protected abstract void runBeforeClass();
 }

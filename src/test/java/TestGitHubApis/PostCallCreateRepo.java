@@ -1,7 +1,6 @@
 package TestGitHubApis;
 
 import POJO.CreateRepoRequest;
-import base.BaseTest;
 import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;

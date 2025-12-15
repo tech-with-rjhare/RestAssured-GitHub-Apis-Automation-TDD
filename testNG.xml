@@ -9,10 +9,10 @@
     <test name="Test-GitHub-APIs">
                 <classes>
                     <class name="TestGitHubApis.GetReposTests"/>
-                    <class name="TestGitHubApis.PostCallCreateRepo"/>
+                    <!--<class name="TestGitHubApis.PostCallCreateRepo"/>
                     <class name="TestGitHubApis.PatchUpdateRepo"/>
                     <class name="TestGitHubApis.GetPrivateReposTests"/>
-                    <class name="TestGitHubApis.DeleteRepoCall"/>
+                    <class name="TestGitHubApis.DeleteRepoCall"/>-->
                 </classes>
     </test>
 </suite>

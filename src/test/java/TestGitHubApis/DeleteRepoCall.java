@@ -1,6 +1,5 @@
 package TestGitHubApis;
 
-import base.BaseTest;
 import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
 import org.testng.annotations.Test;
