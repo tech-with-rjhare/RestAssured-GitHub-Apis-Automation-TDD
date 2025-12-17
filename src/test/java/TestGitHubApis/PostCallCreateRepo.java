@@ -2,17 +2,21 @@ package TestGitHubApis;
 
 import POJO.CreateRepoRequest;
 import config.*;
+import endpoints.Endpoints;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
-import static io.restassured.RestAssured.given;
+
+import static base.PostClass.postRequest;
 import static org.hamcrest.Matchers.*;
 
 public class PostCallCreateRepo extends BaseTest {
 
+    private Response response;
     @Override
     protected void runBeforeClass(){
         final String newRepoName = ConfigManager.getValue("new_repo_name");
@@ -33,18 +37,8 @@ public class PostCallCreateRepo extends BaseTest {
                 .gitignoreTemplate("Java")
                 .build();
 
-        /*String requestBody = "{\n" +
-                "    \"name\": \"my-test-repo-v1\",\n" +
-                "    \"description\": \"" + newRepoDesc + "\",\n" +
-                "    \"homepage\": \"https://github.com\",\n" +
-                "    \"private\": " + isPrivate + ",\n" +
-                "    \"has_issues\": true,\n" +
-                "    \"has_projects\": true,\n" +
-                "    \"has_wiki\": true\n" +
-                "}";*/
-        requestSpecification = given().auth().oauth2(TokenManager.getToken()).contentType(ContentType.JSON).body(requestBody);
-        //requestSpecification.log().all();
-        response = requestSpecification.post("/user/repos");
+        //response = BaseClass.postRequest(requestBody);
+        response = postRequest(Endpoints.CREATE_REPO,requestBody);
     }
 
     @Test

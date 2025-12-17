@@ -1,15 +1,19 @@
 package TestGitHubApis;
 
 import config.*;
+import endpoints.Endpoints;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import static io.restassured.RestAssured.given;
+
+import static base.DeleteClass.deleteRequest;
 import static org.hamcrest.Matchers.equalTo;
 
 public class DeleteRepoCall extends BaseTest {
 
+    private Response response;
     @Override
     protected void runBeforeClass() {
         try {
@@ -17,10 +21,11 @@ public class DeleteRepoCall extends BaseTest {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        requestSpecification = given().auth().oauth2(TokenManager.getToken());
-        String pathParam = "/repos/"+ConfigManager.getValue("owner_name")+"/"+ConfigManager.getValue("update_repo_name");
-        response = requestSpecification.delete(pathParam);
-        System.out.println();
+        Map<String, Object> pathparam = Map.of(
+                "repo",ConfigManager.getValue("update_repo_name"),
+                "owner",ConfigManager.getValue("owner_name")
+        );
+        response = deleteRequest(pathparam);
     }
 
     @Test
@@ -47,8 +52,10 @@ public class DeleteRepoCall extends BaseTest {
     @Test(dependsOnMethods = "verifyResponseBodyIsEmpty")
     void verifyRepoIsDeleted() throws InterruptedException{
         Thread.sleep(3000);
-        String pathParam = "/repos/"+ConfigManager.getValue("owner_name")+"/"+ConfigManager.getValue("update_repo_name");
-        response = requestSpecification.delete(pathParam);
+        Map<String, Object> pathparam = Map.of(
+                "repo",ConfigManager.getValue("update_repo_name")
+        );
+        response = deleteRequest(Endpoints.DELETE_REPO_BY_NAME,pathparam,TokenManager.getToken());
         response.then().assertThat().statusCode(404);
     }
 

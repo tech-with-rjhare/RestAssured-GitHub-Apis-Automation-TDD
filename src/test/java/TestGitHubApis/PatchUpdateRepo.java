@@ -1,11 +1,15 @@
 package TestGitHubApis;
 
+import POJO.CreateRepoRequest;
+import base.BaseClass;
+import base.PatchClass;
 import config.*;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
@@ -23,16 +27,20 @@ public class PatchUpdateRepo extends BaseTest {
         }
         final String updateRepoName = ConfigManager.getValue("update_repo_name");
         final String updateRepoDesc = ConfigManager.getValue("update_repo_desc");
-        final String isPrivate = ConfigManager.getValue("update_repo_is_private");
-        pathParam = "/repos/test-account-rakesh/"+ConfigManager.getValue("new_repo_name");
+        final boolean isPrivate = Boolean.parseBoolean(ConfigManager.getValue("update_repo_is_private"));
+        //pathParam = "/repos/test-account-rakesh/"+ConfigManager.getValue("new_repo_name");
+        Map<String, Object> pathparam = Map.of(
+                "owner",ConfigManager.getValue("owner_name"),
+                "repo",ConfigManager.getValue("new_repo_name")
+        );
 
-        String requestBody = "{\n" +
-                "    \"name\": \"" + updateRepoName + "\",\n" +
-                "    \"description\": \"" + updateRepoDesc + "\"\n" +
-                "}";
-        requestSpecification = given().auth().oauth2(TokenManager.getToken()).contentType(ContentType.JSON).body(requestBody);
-        response = requestSpecification.patch(pathParam);
-        //System.out.println(pathParam);
+        CreateRepoRequest requestBody = CreateRepoRequest.builder()
+                .name(updateRepoName)
+                .description(updateRepoDesc)
+                .isPrivate(isPrivate)
+                .build();
+
+        response = PatchClass.patchRequest(pathparam,requestBody);
     }
     @Test
     void verifyStatusCode(){

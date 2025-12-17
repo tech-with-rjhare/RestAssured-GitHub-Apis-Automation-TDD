@@ -1,24 +1,26 @@
 package TestGitHubApis;
 
 import config.*;
+import endpoints.Endpoints;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static io.restassured.RestAssured.*;
+import static base.GetClass.getRequest;
 import static org.hamcrest.Matchers.*;
 
 public class GetPrivateReposTests extends BaseTest {
 
+    private Response response;
     @Override
     protected void runBeforeClass(){
-        requestSpecification= given().auth().oauth2(TokenManager.getToken());
-        response = requestSpecification.when().get("/user/repos");
+        response = getRequest(Endpoints.GET_USER_PRIVATE_REPOS,TokenManager.getToken());
         /*ResponseBody responseBody = response.then().extract().response().getBody();
         String resBody = responseBody.asString();
         //System.out.println("Response : "+response.jsonPath());
@@ -36,8 +38,7 @@ public class GetPrivateReposTests extends BaseTest {
 
     @Test(priority = 2, dependsOnMethods = "verifyStatusCode")
     void verifyResponseHeader(){
-        requestSpecification= given().auth().oauth2(TokenManager.getToken());
-        response = requestSpecification.when().get("/user/repos");
+        response = getRequest(Endpoints.GET_USER_PRIVATE_REPOS,TokenManager.getToken());
 
         responseSpecification = new ResponseSpecBuilder()
                 .expectStatusCode(200)
@@ -59,8 +60,7 @@ public class GetPrivateReposTests extends BaseTest {
 
     @Test(priority = 3, dependsOnMethods = "verifyStatusCode")
     void verifyRepositoryByName(){
-        requestSpecification = given().auth().oauth2(TokenManager.getToken());
-        response = requestSpecification.get("/user/repos");
+        response = getRequest(Endpoints.GET_USER_PRIVATE_REPOS,TokenManager.getToken());
         //String responseBodyInString = response.body().prettyPrint();
         String responseBodyInString = response.body().asString();
         //response.then().body("name",hasItem(find_repo));
@@ -74,7 +74,7 @@ public class GetPrivateReposTests extends BaseTest {
 
     @Test(priority = 1, dependsOnMethods = "verifyStatusCode")
     void verifyResponseContentType(){
-        response = given().auth().oauth2(TokenManager.getToken()).get("/user/repos");
+        response = getRequest(Endpoints.GET_USER_PRIVATE_REPOS,TokenManager.getToken());
         response.then().assertThat().contentType(ContentType.JSON);
 
         //String contentType = response.getContentType();

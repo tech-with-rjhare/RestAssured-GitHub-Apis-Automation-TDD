@@ -2,6 +2,7 @@ package TestGitHubApis;
 
 import POJO.RepoResponse;
 import base.BaseClass;
+import base.GetClass;
 import config.ConfigManager;
 import endpoints.Endpoints;
 import io.restassured.response.Response;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static io.restassured.RestAssured.given;
+import static base.GetClass.getRequest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 
@@ -72,7 +73,7 @@ public class GetReposTests extends BaseTest {
     @Test(dependsOnMethods = "verifyRepositoryByName")
     void verifyDescription(){
         String expectedDesc = "Practicing TestNG annotations and assertions";
-        response = BaseClass.getRequest(Endpoints.GET_USER_REPOS,Map.of("username",ConfigManager.getValue("owner_name2")));
+        response = GetClass.getRequest(Endpoints.GET_USER_REPOS,Map.of("username",ConfigManager.getValue("owner_name2")));
         List<String> reposDesc = response.then().extract().body().jsonPath().getList("description");
         boolean isPresent = reposDesc.contains(expectedDesc);
         Assert.assertTrue(isPresent, "Expected repo name " + expectedDesc + " not found in response!");
