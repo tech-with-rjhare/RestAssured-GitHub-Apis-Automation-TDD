@@ -8,6 +8,7 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import payloads.PatchRepoPayloadBuilder;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -28,19 +29,15 @@ public class PatchUpdateRepo extends BaseTest {
         final String updateRepoName = ConfigManager.getValue("update_repo_name");
         final String updateRepoDesc = ConfigManager.getValue("update_repo_desc");
         final boolean isPrivate = Boolean.parseBoolean(ConfigManager.getValue("update_repo_is_private"));
-        //pathParam = "/repos/test-account-rakesh/"+ConfigManager.getValue("new_repo_name");
+
         Map<String, Object> pathparam = Map.of(
                 "owner",ConfigManager.getValue("owner_name"),
                 "repo",ConfigManager.getValue("new_repo_name")
         );
 
-        CreateRepoRequest requestBody = CreateRepoRequest.builder()
-                .name(updateRepoName)
-                .description(updateRepoDesc)
-                .isPrivate(isPrivate)
-                .build();
+        CreateRepoRequest requestPayload = PatchRepoPayloadBuilder.updateNameDescriptionVisibility(updateRepoName,updateRepoDesc,isPrivate);
 
-        response = PatchClass.patchRequest(pathparam,requestBody);
+        response = PatchClass.patchRequest(pathparam,requestPayload);
     }
     @Test
     void verifyStatusCode(){

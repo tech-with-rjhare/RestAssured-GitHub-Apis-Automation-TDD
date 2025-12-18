@@ -9,6 +9,8 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import payloads.CreateRepoPayloadBuilder;
+
 import java.util.concurrent.TimeUnit;
 
 import static base.PostClass.postRequest;
@@ -25,20 +27,9 @@ public class PostCallCreateRepo extends BaseTest {
 
         final boolean isPrivate = Boolean.parseBoolean(privateValue);
 
-        CreateRepoRequest requestBody = CreateRepoRequest.builder()
-                .name(newRepoName)
-                .description(newRepoDesc)
-                .isPrivate(isPrivate)
-                .hasWiki(true)
-                .hasProjects(true)
-                .hasIssues(true)
-                .autoInit(true)
-                .licenseTemplate("mit")
-                .gitignoreTemplate("Java")
-                .build();
-
+        CreateRepoRequest requestPayload = CreateRepoPayloadBuilder.createRepoPayload(newRepoName,newRepoDesc,isPrivate);
         //response = BaseClass.postRequest(requestBody);
-        response = postRequest(Endpoints.CREATE_REPO,requestBody);
+        response = postRequest(Endpoints.CREATE_REPO,requestPayload);
     }
 
     @Test
